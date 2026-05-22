@@ -14,7 +14,7 @@ export const SITE_IMAGES = {
   ogDefault: ogDefaultImg,
 } as const;
 
-export const locales = ['en', 'fr'] as const;
+export const locales = ['en', 'zh-cn'] as const;
 export type Locale = (typeof locales)[number];
 
 /**
@@ -26,8 +26,7 @@ export type Locale = (typeof locales)[number];
  * URL is exposed.
  */
 const GITHUB_HANDLE = import.meta.env.PUBLIC_GITHUB_HANDLE ?? '';
-const GITHUB_REPO = import.meta.env.PUBLIC_GITHUB_REPO ?? 'chirping-astro';
-const TWITTER_HANDLE = import.meta.env.PUBLIC_TWITTER_HANDLE ?? '';
+const GITHUB_REPO = import.meta.env.PUBLIC_GITHUB_REPO ?? '';
 const CONTACT_EMAIL = import.meta.env.PUBLIC_CONTACT_EMAIL ?? '';
 const THEME_REPO_URL = 'https://github.com/kannansuresh/chirping-astro';
 
@@ -49,16 +48,16 @@ export const SITE: SiteConfig = {
   // ==========================================
 
   /** Default site title used as homepage <title> and meta. */
-  title: 'Chirping Astro',
+  title: '钢蛋的工坊',
   /** Site tagline / description. */
   description:
-    'A modern, multilingual Astro v6 theme inspired by Chirpy — built with Tailwind v4, daisyUI, MDX, Pagefind, and Giscus.',
+    '钢蛋的工坊，一个分享技术、生活、思考的地方。',
   /** Author/handle shown in footer + meta. */
   author: {
-    name: 'Chirping Astro',
+    name: '钢蛋',
     url: GITHUB_HANDLE ? `https://github.com/${GITHUB_HANDLE}` : undefined,
     avatar: avatarImg,
-    bio: 'A text-focused Astro V6 theme.',
+    bio: '一个分享技术、生活、思考的地方。',
   },
   /** Default OG image. */
   defaultOgImage: ogDefaultImg.src,
@@ -75,7 +74,7 @@ export const SITE: SiteConfig = {
   /** Automatically generate Open Graph images for posts that don't have a `heroImage`. */
   autoOgImage: true,
   /** Show a link to the Privacy Policy page in the footer. */
-  showPrivacyPolicy: true,
+  showPrivacyPolicy: false,
   /** Footer text/link controls. */
   footer: {
     /**
@@ -89,7 +88,7 @@ export const SITE: SiteConfig = {
      */
     rightText: undefined,
     /** Whether to show the Privacy Policy link in the footer. */
-    showPrivacyPolicy: true,
+    showPrivacyPolicy: false,
     /** Whether to show theme credits in the footer right side. Theme <themeName> */
     showThemeCredits: true,
     /** Label for the theme repository link in the right footer line. */
@@ -109,9 +108,9 @@ export const SITE: SiteConfig = {
   /** Supported locales. Changing this requires adding/removing locale folders, content, and i18n entries. */
   locales: locales,
   /** Default locale. Changing this is a breaking, atomic, multi-file operation. */
-  defaultLocale: 'en',
+  defaultLocale: 'zh-cn',
   /** Show the language switcher and link to translated pages. */
-  multilingual: true,
+  multilingual: false,
 };
 
 export const NAV: readonly NavItem[] = [
@@ -136,11 +135,6 @@ export const SOCIALS: readonly SocialLink[] = [
     label: 'GitHub',
     href: `https://github.com/${GITHUB_HANDLE}`,
     icon: 'simple-icons:github',
-  },
-  TWITTER_HANDLE && {
-    label: 'Twitter',
-    href: `https://x.com/${TWITTER_HANDLE}`,
-    icon: 'simple-icons:x',
   },
   CONTACT_EMAIL && {
     label: 'Email',
