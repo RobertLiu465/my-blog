@@ -19,13 +19,13 @@ categories: [Technology]
 
 查阅Unity官方API文档，发现TextGenerator还有个GetPreferredWidth方法，于是有了个想法，是不是拿这个宽度和实际宽度对比，然后去除多余宽度内的字符就行了呢，不过这样就需要知道每个字符的宽度，TextGenerator有个GetCharactersArray方法，数组里面的UICharInfo类，有个charWidth字段，看起来就是这个宽度。试了一下，似乎成了。
 
-![超过宽度的文本自动补省略号](assets\images\posts\unity-text\unity-text-1.webp)
+![超过宽度的文本自动补省略号](..\..\..\assets\images\posts\unity-text\unity-text-1.png)
 超过宽度的文本自动补省略号
 
-![未超过宽度的文本完整显示](assets\images\posts\unity-text\unity-text-2.webp)
+![未超过宽度的文本完整显示](..\..\..\assets\images\posts\unity-text\unity-text-2.png)
 未超过宽度的文本完整显示
 
-![截掉省略号前面多余的空格](assets\images\posts\unity-text\unity-text-3.webp)
+![截掉省略号前面多余的空格](..\..\..\assets\images\posts\unity-text\unity-text-3.png)
 截掉省略号前面多余的空格
 
 附上源码，不过目前没有仔细测过，可以试试看~
