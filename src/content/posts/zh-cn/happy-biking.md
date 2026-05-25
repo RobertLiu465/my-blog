@@ -3,6 +3,7 @@ title: '自行车升级心路历程'
 description: '两年期间，换了6次车，讲讲这期间的感悟。'
 pubDate: 2026-05-25
 updatedDate: 2026-05-25
+heroImage: ../../../assets/images/posts/happy-biking/PR-1.jpg
 tags: [Cycling]
 categories: [Life]
 ---

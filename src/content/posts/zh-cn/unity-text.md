@@ -3,6 +3,7 @@ title: 'Unity原生Text组件超出宽度自动补省略号'
 description: '实现用一行文本显示玩家名字，如果玩家名字超出一个宽度，就自动截断并补充省略号。'
 pubDate: 2026-05-22
 updatedDate: 2026-05-22
+heroImage: ../../../assets/images/posts/unity-text/unity-text-1.png
 tags: [Unity]
 categories: [Technology]
 ---
@@ -38,25 +39,25 @@ private void SetTextTruncateWithEllipsis(Text txt, string value)
 	{
 		return;
 	}
-	
+
 	Vector2 selfSizeDelta = rectTransform.sizeDelta;
 	//拿到文本组件RectTransform的宽度
 	float selfWidth = selfSizeDelta.x;
-	
+
 	//获取文本组件上序列化的配置
 	var settings = txt.GetGenerationSettings(selfSizeDelta);
-	
+
 	var generator = new TextGenerator();
 	//计算填充文本需要的宽度
 	float preferredWidth = generator.GetPreferredWidth(value, settings);
-	
+
 	//超出RectTransform部分的宽度
 	float overFlowWidth = preferredWidth - selfWidth;
 	if (overFlowWidth > 0)
 	{
 		generator.Populate(value, settings);
 		var allUiCharInfo = generator.GetCharactersArray();
-		
+
 		int decreaseCharCount = 0;
 		for (int i = allUiCharInfo.Length - 2; i >= 0; i--)
 		{
@@ -67,10 +68,10 @@ private void SetTextTruncateWithEllipsis(Text txt, string value)
 				{
 					break;
 				}
-				
+
 				decreaseCharCount++;
 			}
-			
+
 			if (overFlowWidth > 0)
 			{
 				//从后向前逐个删文本，直到不超过RectTransform部分的宽度，记录删掉的字符
@@ -84,7 +85,7 @@ private void SetTextTruncateWithEllipsis(Text txt, string value)
 				}
 			}
 		}
-		
+
 		//让文本在同一行显示
 		txt.horizontalOverflow = HorizontalWrapMode.Overflow;
 		txt.text = value.Substring(0, value.Length - decreaseCharCount - 1) + "...";
