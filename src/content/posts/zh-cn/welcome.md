@@ -10,4 +10,5 @@ heroImageAlt: '主题图.'
 pinned: true
 toc: true
 ---
-你好，还原你来到我的频道。
+
+你好，欢迎你来到我的频道。
