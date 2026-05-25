@@ -1,28 +1,42 @@
 /**
- * Lightweight reading-time estimator. We avoid the full `reading-time` package
- * here because the post body is consumed via Astro's `render()` and we have
- * a numeric word count already.
+ * 轻量阅读时长估算：中文按字、英文按词分别统计后合并为分钟数。
  */
 
-const WORDS_PER_MINUTE = 220;
+/** 英文阅读速度（词/分钟） */
+const LATIN_WORDS_PER_MINUTE = 200;
+/** 中文阅读速度（字/分钟） */
+const CJK_CHARS_PER_MINUTE = 300;
+
+/** CJK 汉字（含扩展区） */
+const CJK_CHAR_RE = /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/g;
 
 export interface ReadingTime {
-  /** Whole minutes, minimum 1. */
+  /** 阅读分钟数，最少 1 分钟 */
   minutes: number;
-  /** Word count. */
+  /** 统计单位：CJK 字数 + 拉丁词数 */
   words: number;
 }
 
-export function readingTime(text: string): ReadingTime {
-  const words = text
-    .replace(/```[\s\S]*?```/g, ' ') // strip fenced code
-    .replace(/<[^>]+>/g, ' ') // strip html
+/** 去掉代码块与 HTML，便于统计正文 */
+function stripForCount(text: string): string {
+  return text
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
-    .split(' ')
-    .filter(Boolean).length;
-  return {
-    words,
-    minutes: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
-  };
+    .trim();
+}
+
+export function readingTime(text: string): ReadingTime {
+  const cleaned = stripForCount(text);
+  const cjkChars = (cleaned.match(CJK_CHAR_RE) ?? []).length;
+  const withoutCjk = cleaned.replace(CJK_CHAR_RE, ' ');
+  const latinWords = withoutCjk.split(' ').filter(Boolean).length;
+  const words = cjkChars + latinWords;
+
+  const minutes = Math.max(
+    1,
+    Math.round(cjkChars / CJK_CHARS_PER_MINUTE + latinWords / LATIN_WORDS_PER_MINUTE),
+  );
+
+  return { words, minutes };
 }
