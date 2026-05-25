@@ -6,7 +6,6 @@ updatedDate: 2026-05-22
 categories: [Announcements]
 translationKey: welcome
 heroImage: ../../../assets/images/posts/welcome/devices-mockup.png
-heroImageAlt: '主题图.'
 pinned: true
 toc: true
 ---
