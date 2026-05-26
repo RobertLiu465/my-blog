@@ -118,7 +118,7 @@ export function formatDate(
   const d = typeof date === 'string' ? new Date(date) : date;
   if (Number.isNaN(d.getTime())) return '';
   if (SITE.isoDates) return d.toISOString().slice(0, 10);
-  const lang = 'en-US';
+  const lang = locale === 'zh-cn' ? 'zh-CN' : 'en-US';
   return new Intl.DateTimeFormat(lang, options).format(d);
 }
 

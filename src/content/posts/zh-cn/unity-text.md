@@ -4,7 +4,7 @@ description: '实现用一行文本显示玩家名字，如果玩家名字超出
 pubDate: 2026-05-22
 updatedDate: 2026-05-22
 heroImage: ../../../assets/images/posts/unity-text/unity-text-1.png
-tags: [Unity]
+tags: [Unity, GameDev]
 categories: [Technology]
 ---
 
