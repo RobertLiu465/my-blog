@@ -4,8 +4,8 @@ description: '讲讲我和我最爱吃的一家酸菜鱼之间的故事。'
 pubDate: 2026-05-26
 updatedDate: 2026-05-26
 heroImage: ../../../assets/images/posts/eat-fish/eat-fish.png
-tags: [Food]
-categories: [Life]
+tags: [food]
+categories: [life]
 useAI: true
 ---
 

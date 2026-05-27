@@ -3,11 +3,13 @@ import { SITE } from '~/config';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import PostList from '~/components/PostList.astro';
 import { useTranslations, localizedPath } from '~/i18n/utils';
-import { getPosts, getTagsWithCount, slugify } from '~/utils/posts';
+import { getPosts, getTagsWithCount } from '~/utils/posts';
+import type { TagId } from '~/config/taxonomies';
 
 interface Props {
+  tagId: TagId;
   tagName: string;
-  locale: any;
+  locale: (typeof SITE.locales)[number];
 }
 
 export async function getStaticPaths() {
@@ -17,18 +19,18 @@ export async function getStaticPaths() {
     const localeParams = { locale: locale === SITE.defaultLocale ? undefined : locale };
     paths.push(
       ...tags.map((tag) => ({
-        params: { ...localeParams, tag: slugify(tag.name) },
-        props: { tagName: tag.name, locale },
+        params: { ...localeParams, tag: tag.id },
+        props: { tagId: tag.id, tagName: tag.name, locale },
       })),
     );
   }
   return paths;
 }
 
-const { tagName, locale } = Astro.props as Props;
+const { tagId, tagName, locale } = Astro.props as Props;
 const { tag } = Astro.params;
 const t = useTranslations(locale);
-const posts = (await getPosts(locale)).filter((p) => p.data.tags.some((tg) => slugify(tg) === tag));
+const posts = (await getPosts(locale)).filter((p) => p.data.tags.includes(tagId));
 ---
 
 <BaseLayout

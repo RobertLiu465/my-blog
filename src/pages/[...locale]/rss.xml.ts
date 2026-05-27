@@ -3,6 +3,7 @@ import rss from '@astrojs/rss';
 import type { APIRoute } from 'astro';
 import { SITE } from '~/config';
 import { getPosts, postPath } from '~/utils/posts';
+import { getCategoryLabels, getTagLabels } from '~/utils/taxonomies';
 
 export const GET: APIRoute = async (context) => {
   const { locale } = context.props;
@@ -34,7 +35,10 @@ export const GET: APIRoute = async (context) => {
       pubDate: post.data.pubDate,
       description: post.data.description,
       link: new URL(postPath(post), SITE.url).href,
-      categories: [...post.data.tags, ...post.data.categories],
+      categories: [
+        ...getTagLabels(locale, post.data.tags),
+        ...getCategoryLabels(locale, post.data.categories),
+      ],
     })),
     customData: `<language>en-us</language>`,
   });

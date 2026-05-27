@@ -2,6 +2,7 @@
 import { SITE, type Locale } from '../config';
 import { formatDate, isoDate } from '../i18n/utils';
 import { type Post, postPath, heroImage, shouldShowHero } from '../utils/posts';
+import { getCategoryLabels } from '../utils/taxonomies';
 import SmartImage from './SmartImage.astro';
 import { Icon } from 'astro-icon/components';
 
@@ -77,7 +78,7 @@ const isDynamicCardHeight = post.data.dynamicPostCardHeight ?? SITE.dynamicPostC
             post.data.categories.length > 0 && (
               <span class="inline-flex items-center gap-1">
                 <Icon name="lucide:folder" width={12} height={12} />
-                <span>{post.data.categories.join(', ')}</span>
+                <span>{getCategoryLabels(locale, post.data.categories).join(', ')}</span>
               </span>
             )
           }

@@ -4,8 +4,8 @@ description: '三年期间，换了9次车，讲讲这期间的感悟。'
 pubDate: 2026-05-25
 updatedDate: 2026-05-25
 heroImage: ../../../assets/images/posts/happy-biking/PR-1.jpg
-tags: [Cycling]
-categories: [Life]
+tags: [cycling]
+categories: [life]
 useAI: true
 ---
 

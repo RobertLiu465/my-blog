@@ -13,6 +13,7 @@
 import type { GetStaticPaths } from 'astro';
 import { generateOgImage } from '../../utils/og-image';
 import { getPosts, postSlug, type Post } from '../../utils/posts';
+import { getCategoryLabel, getTagLabels } from '../../utils/taxonomies';
 import { SITE, type Locale } from '../../config';
 import { formatDate } from '../../i18n/utils';
 
@@ -52,8 +53,10 @@ export async function GET({ props }: { props: Props }) {
     title: post.data.title,
     description: post.data.description,
     date,
-    category: post.data.categories[0],
-    tags: post.data.tags,
+    category: post.data.categories[0]
+      ? getCategoryLabel(locale, post.data.categories[0])
+      : undefined,
+    tags: getTagLabels(locale, post.data.tags),
   });
 
   return new Response(new Uint8Array(png), {

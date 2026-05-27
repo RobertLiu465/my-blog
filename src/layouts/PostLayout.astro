@@ -20,6 +20,7 @@ import {
   heroImageSrc,
   shouldShowHero,
 } from '../utils/posts';
+import { getCategoryLabel, getTagLabel, getTagLabels } from '../utils/taxonomies';
 import { buildSeo } from '../utils/seo';
 import type { MarkdownHeading } from 'astro';
 
@@ -77,7 +78,7 @@ const seo = buildSeo({
   type: 'article',
   publishedTime: post.data.pubDate,
   modifiedTime: post.data.updatedDate,
-  tags: post.data.tags,
+  tags: getTagLabels(locale, post.data.tags),
   availableLocales,
   // An unlisted post hides from SEO by default unless the author
   // explicitly sets `unlistedHideFromSeo: false`.
@@ -96,7 +97,7 @@ const crumbs = [
   type="article"
   publishedTime={post.data.pubDate}
   modifiedTime={post.data.updatedDate}
-  tags={post.data.tags}
+  tags={getTagLabels(locale, post.data.tags)}
   crumbs={crumbs}
   seo={seo}
   availableLocales={availableLocales}
@@ -140,7 +141,7 @@ const crumbs = [
                 <>
                   {i > 0 && <span class="text-base-content/40 mx-0.5">,</span>}
                   <a href={categoryPath(locale, c)} class="hover:text-primary">
-                    {c}
+                    {getCategoryLabel(locale, c)}
                   </a>
                 </>
               ))}
@@ -194,7 +195,7 @@ const crumbs = [
           </span>
           {post.data.tags.map((tag) => (
             <a href={tagPath(locale, tag)} class="post-tag text-xs">
-              {tag}
+              {getTagLabel(locale, tag)}
             </a>
           ))}
         </footer>

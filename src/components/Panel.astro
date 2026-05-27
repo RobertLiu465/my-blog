@@ -56,7 +56,7 @@ const trending = tags.slice(0, 8);
         </h2>
         <div class="flex flex-wrap gap-2">
           {trending.map((tag) => (
-            <a href={tagPath(locale, tag.name)} class="post-tag">
+            <a href={tagPath(locale, tag.id)} class="post-tag">
               {tag.name}
             </a>
           ))}

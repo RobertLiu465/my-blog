@@ -4,8 +4,8 @@ description: '用我早已遗忘的物理知识胡乱分析一下，自行车无
 pubDate: 2026-05-26
 updatedDate: 2026-05-26
 heroImage: ../../../assets/images/posts/bike-accelerate/bike-accelerate-0.png
-tags: [Cycling]
-categories: [Life]
+tags: [cycling]
+categories: [life]
 useAI: true
 ---
 

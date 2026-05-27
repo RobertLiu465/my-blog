@@ -14,6 +14,11 @@ import type { ImageMetadata } from 'astro';
 
 import { SITE, type Locale } from '../config';
 import { withBase } from '../i18n/utils';
+import type { TagId, CategoryId } from '../config/taxonomies';
+import { aggregateCategoriesWithCount, aggregateTagsWithCount } from './taxonomies';
+
+export { tagPath, categoryPath } from './taxonomies';
+export type { TagId, CategoryId } from '../config/taxonomies';
 
 export type Post = CollectionEntry<'posts'> & {
   data: CollectionEntry<'posts'>['data'] & { lang: Locale; translationKey: string };
@@ -139,29 +144,17 @@ export async function getTranslations(entry: Post): Promise<Record<Locale, Post 
 /** Tags for a locale, with counts, sorted by count desc then alpha. */
 export async function getTagsWithCount(
   locale: Locale,
-): Promise<Array<{ name: string; count: number }>> {
+): Promise<Array<{ id: TagId; name: string; count: number }>> {
   const posts = await getPosts(locale);
-  const map = new Map<string, number>();
-  for (const p of posts) {
-    for (const t of p.data.tags) map.set(t, (map.get(t) ?? 0) + 1);
-  }
-  return Array.from(map.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  return aggregateTagsWithCount(locale, posts);
 }
 
 /** Categories for a locale, with counts. */
 export async function getCategoriesWithCount(
   locale: Locale,
-): Promise<Array<{ name: string; count: number }>> {
+): Promise<Array<{ id: CategoryId; name: string; count: number }>> {
   const posts = await getPosts(locale);
-  const map = new Map<string, number>();
-  for (const p of posts) {
-    for (const c of p.data.categories) map.set(c, (map.get(c) ?? 0) + 1);
-  }
-  return Array.from(map.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  return aggregateCategoriesWithCount(locale, posts);
 }
 
 /** Group posts by year -> month for the archives page. */
@@ -239,29 +232,4 @@ export function heroImage(post: Post): ImageMetadata | string | undefined {
     return img.startsWith('/') && !img.startsWith('//') ? withBase(img) : img;
   }
   return img as ImageMetadata;
-}
-
-/** Slugify a tag/category for use in URLs. */
-export function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
-/** Build the URL for a tag listing page in a given locale. */
-export function tagPath(locale: Locale, tag: string): string {
-  const slug = slugify(tag);
-  const path = locale === SITE.defaultLocale ? `/tags/${slug}/` : `/${locale}/tags/${slug}/`;
-  return withBase(path);
-}
-
-/** Build the URL for a category listing page in a given locale. */
-export function categoryPath(locale: Locale, category: string): string {
-  const slug = slugify(category);
-  const path =
-    locale === SITE.defaultLocale ? `/categories/${slug}/` : `/${locale}/categories/${slug}/`;
-  return withBase(path);
 }

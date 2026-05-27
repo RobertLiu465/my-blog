@@ -16,6 +16,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'zod';
 
 import { SITE } from './config';
+import { TAG_IDS, CATEGORY_IDS } from './config/taxonomies';
 
 const localeEnum = z.enum(SITE.locales as unknown as [string, ...string[]]);
 
@@ -38,8 +39,10 @@ const baseFrontmatter = ({ image }: SchemaContext) =>
     description: z.string().min(1).max(280),
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).default([]),
-    categories: z.array(z.string()).default([]),
+    /** 标签 slug，显示名见 `src/config/taxonomies.ts`。 */
+    tags: z.array(z.enum(TAG_IDS)).default([]),
+    /** 分类 slug，显示名见 `src/config/taxonomies.ts`。 */
+    categories: z.array(z.enum(CATEGORY_IDS)).default([]),
     draft: z.boolean().default(false),
     heroImage: z.union([image(), z.string()]).optional(),
     /** Optional alt-text for the hero/featured image. */

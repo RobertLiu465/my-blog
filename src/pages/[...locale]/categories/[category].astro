@@ -3,11 +3,13 @@ import { SITE } from '~/config';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import PostList from '~/components/PostList.astro';
 import { useTranslations, localizedPath } from '~/i18n/utils';
-import { getPosts, getCategoriesWithCount, slugify } from '~/utils/posts';
+import { getPosts, getCategoriesWithCount } from '~/utils/posts';
+import type { CategoryId } from '~/config/taxonomies';
 
 interface Props {
+  categoryId: CategoryId;
   categoryName: string;
-  locale: any;
+  locale: (typeof SITE.locales)[number];
 }
 
 export async function getStaticPaths() {
@@ -17,20 +19,18 @@ export async function getStaticPaths() {
     const localeParams = { locale: locale === SITE.defaultLocale ? undefined : locale };
     paths.push(
       ...categories.map((c) => ({
-        params: { ...localeParams, category: slugify(c.name) },
-        props: { categoryName: c.name, locale },
+        params: { ...localeParams, category: c.id },
+        props: { categoryId: c.id, categoryName: c.name, locale },
       })),
     );
   }
   return paths;
 }
 
-const { categoryName, locale } = Astro.props as Props;
+const { categoryId, categoryName, locale } = Astro.props as Props;
 const { category } = Astro.params;
 const t = useTranslations(locale);
-const posts = (await getPosts(locale)).filter(
-  (p) => p.data.categories && p.data.categories.some((c) => slugify(c) === category),
-);
+const posts = (await getPosts(locale)).filter((p) => p.data.categories.includes(categoryId));
 ---
 
 <BaseLayout
