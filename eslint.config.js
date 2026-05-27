@@ -35,6 +35,21 @@ export default [
     },
   },
   {
+    // Cloudflare Pages Functions（Workers 运行时全局变量）
+    files: ['functions/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        URL: 'readonly',
+        Response: 'readonly',
+        Request: 'readonly',
+        fetch: 'readonly',
+        Headers: 'readonly',
+      },
+    },
+  },
+  {
     ignores: ['dist/**', '.astro/**', 'node_modules/**', 'public/_pagefind/**'],
   },
 ];
