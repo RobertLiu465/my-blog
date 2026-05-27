@@ -87,6 +87,10 @@ const baseFrontmatter = ({ image }: SchemaContext) =>
      * you control).
      */
     unlistedHideFromSeo: z.boolean().optional(),
+    /**
+     * 为 true 时，在文章正文下方自动显示 AI 内容声明。
+     */
+    useAI: z.boolean().default(false),
   });
 
 export type PostFrontmatter = z.infer<ReturnType<typeof baseFrontmatter>>;

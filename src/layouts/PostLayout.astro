@@ -181,6 +181,12 @@ const crumbs = [
     </div>
 
     {
+      post.data.useAI && (
+        <p class="text-base-content/70 mt-8 text-sm italic">{t('post.aiDisclaimer')}</p>
+      )
+    }
+
+    {
       post.data.tags.length > 0 && (
         <footer class="border-base-300 mt-10 flex flex-wrap items-center gap-2 border-t pt-6">
           <span class="text-base-content/70 text-sm font-semibold tracking-wide uppercase">

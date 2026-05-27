@@ -37,6 +37,8 @@ export const messages = {
     'post.next': 'Next',
     'post.comments': 'Comments',
     'post.commentsDisabled': 'Comments are disabled for this post.',
+    'post.aiDisclaimer':
+      '(AI was used in this post only for generating images and polishing the content.)',
     'post.commentsSetupTitle': 'Comments need configuration',
     'post.commentsSetupBody':
       'Giscus is enabled but not yet configured. Add the repository details below to start collecting comments.',
@@ -134,17 +136,16 @@ export const messages = {
     'post.next': '下一篇',
     'post.comments': '评论',
     'post.commentsDisabled': '评论已关闭',
+    'post.aiDisclaimer': '（文章内 AI 仅用于生成配图及内容润色）',
     'post.commentsSetupTitle': '评论需要配置',
-    'post.commentsSetupBody':
-      '评论功能已启用但未配置。请在下方填写仓库信息以启用评论。',
+    'post.commentsSetupBody': '评论功能已启用但未配置。请在下方填写仓库信息以启用评论。',
     'post.commentsSetupStep1':
       '访问 `giscus.app` 并选择你的公共 GitHub 仓库（必须启用 Discussions）。',
     'post.commentsSetupStep2':
       '复制生成的 `data-repo-id`、`data-category` 和 `data-category-id` 值。',
     'post.commentsSetupStep3':
       '设置环境变量 `PUBLIC_GISCUS_ENABLED`、`PUBLIC_GISCUS_REPO`、`PUBLIC_GISCUS_REPO_ID`、`PUBLIC_GISCUS_CATEGORY` 和 `PUBLIC_GISCUS_CATEGORY_ID` 在你的 `.env` 文件中。',
-    'post.commentsSetupStep4':
-      '重新构建网站 — 此通知将被实时评论线程替换。',
+    'post.commentsSetupStep4': '重新构建网站 — 此通知将被实时评论线程替换。',
     'post.commentsSetupDocs': '打开 giscus.app',
     'post.share': '分享',
     'post.copyLink': '复制链接',
