@@ -4,6 +4,7 @@ import process from 'node:process';
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadEnv } from 'vite';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
@@ -19,8 +20,13 @@ import { remarkAsHtml } from './src/plugins/remark-ashtml.ts';
 import { remarkAlert } from './src/plugins/remark-alert.ts';
 
 import { SITE } from './src/config';
+import { normalizeSiteUrl } from './src/site-url.ts';
 
-const rawBase = (process.env.BASE_PATH ?? '/').replace(/\/$/, '');
+const projectRoot = fileURLToPath(new URL('.', import.meta.url));
+const viteEnv = loadEnv(process.env.NODE_ENV ?? 'production', projectRoot, '');
+const siteUrl = normalizeSiteUrl(process.env.SITE_URL || viteEnv.SITE_URL);
+
+const rawBase = (process.env.BASE_PATH ?? viteEnv.BASE_PATH ?? '/').replace(/\/$/, '');
 const BASE = rawBase.startsWith('/') ? rawBase : `/${rawBase}`;
 const SITEMAP_XSL_HREF = `${BASE}/sitemap/styles.xsl`;
 const SKIP_RSS_SITEMAP = process.env.CI_SKIP_RSS_SITEMAP === 'true';
@@ -110,7 +116,7 @@ function rewriteSitemapXslToRelative() {
 
 // https://astro.build/config
 export default defineConfig({
-  site: SITE.url,
+  site: siteUrl,
   // GitHub Pages serves the project at https://<user>.github.io/<repo>/,
   // so production builds need `base` to match that subpath — every
   // generated asset URL (CSS, JS, images, favicons) is prefixed with it.
@@ -270,6 +276,9 @@ export default defineConfig({
   ],
 
   vite: {
+    define: {
+      'import.meta.env.SITE_URL': JSON.stringify(siteUrl),
+    },
     plugins: [tailwindcss()],
   },
 

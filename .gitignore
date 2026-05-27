@@ -30,5 +30,10 @@ bun.lockb
 # pagefind cache
 pagefind/
 
+# environment variables（本地私密配置；生产在 Cloudflare 等平台设置 SITE_URL 等）
+.env
+.env.local
+.env.*.local
+
 # misc
 *.log

@@ -8,7 +8,7 @@ export const GET: APIRoute = async (context) => {
   const { locale } = context.props;
   if (import.meta.env.CI_SKIP_RSS_SITEMAP === 'true') {
     const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-    const siteWithBase = `${(context.site ?? new URL(SITE.url)).origin}${base}`;
+    const siteWithBase = `${new URL(SITE.url).origin}${base}`;
     return rss({
       title: SITE.title,
       description: SITE.description,
@@ -23,7 +23,7 @@ export const GET: APIRoute = async (context) => {
   // `BASE_URL` ends with a '/' (e.g. '/' in dev, '/chirping-astro/' on Pages),
   // so we slice it off when concatenating to avoid '//rss/styles.xsl'.
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-  const siteWithBase = `${(context.site ?? new URL(SITE.url)).origin}${base}`;
+  const siteWithBase = `${new URL(SITE.url).origin}${base}`;
   return rss({
     title: SITE.title,
     description: SITE.description,
@@ -33,7 +33,7 @@ export const GET: APIRoute = async (context) => {
       title: post.data.title,
       pubDate: post.data.pubDate,
       description: post.data.description,
-      link: postPath(post),
+      link: new URL(postPath(post), SITE.url).href,
       categories: [...post.data.tags, ...post.data.categories],
     })),
     customData: `<language>en-us</language>`,
