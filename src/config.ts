@@ -151,11 +151,11 @@ export const SOCIALS: readonly SocialLink[] = [
  * (recommended) provide them via PUBLIC_GISCUS_* env vars at build time.
  */
 export const GISCUS: GiscusConfig = {
-  enabled: true,
-  repo: 'RobertLiu465/my-blog',
-  repoId: 'R_kgDOSkpUUg',
-  category: 'Announcements',
-  categoryId: 'DIC_kwDOSkpUUs4C9zM2',
+  enabled: (import.meta.env.PUBLIC_GISCUS_ENABLED ?? 'false') === 'true',
+  repo: import.meta.env.PUBLIC_GISCUS_REPO ?? '',
+  repoId: import.meta.env.PUBLIC_GISCUS_REPO_ID ?? '',
+  category: import.meta.env.PUBLIC_GISCUS_CATEGORY ?? 'Announcements',
+  categoryId: import.meta.env.PUBLIC_GISCUS_CATEGORY_ID ?? '',
   mapping: 'pathname',
   strict: '0',
   reactionsEnabled: '1',
