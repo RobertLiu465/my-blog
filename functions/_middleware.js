@@ -1,20 +1,34 @@
 // functions/_middleware.js
-const ALLOWED_HOSTS = ['gd-forge.com', 'www.gd-forge.com'];
-
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
-  // 非 allowed 域名访问 → 301 重定向到自定义域名
-  if (!ALLOWED_HOSTS.includes(url.hostname)) {
-    const redirectUrl = new URL(context.request.url);
-    redirectUrl.hostname = 'gd-forge.com';
-    return Response.redirect(redirectUrl.toString(), 301);
+  // 从环境变量读取允许的域名
+  const allowedHostsStr = context.env.ALLOWED_HOSTS || '';
+  const siteUrl = context.env.SITE_URL || '';
+
+  let allowedHosts;
+  if (allowedHostsStr) {
+    allowedHosts = allowedHostsStr.split(',').map((h) => h.trim());
+  } else if (siteUrl) {
+    allowedHosts = [new URL(siteUrl).hostname];
+  } else {
+    return context.next();
   }
 
-  // 检查是否经过 Cloudflare 代理（cf-connecting-ip 由 CF 边缘注入）
-  const cfIp = context.request.headers.get('cf-connecting-ip');
-  if (!cfIp) {
-    return new Response('Forbidden', { status: 403 });
+  // 非 allowed 域名 或 未经过 Cloudflare 代理 → 返回自定义 404 页面
+  const isForbiddenHost = !allowedHosts.includes(url.hostname);
+  const isNotFromCF = !context.request.headers.get('cf-connecting-ip');
+
+  if (isForbiddenHost || isNotFromCF) {
+    // 从环境变量读取 404 页面路径，默认 /404.html
+    const forbiddenPagePath = context.env.FORBIDDEN_PAGE || '/404.html';
+    const notFoundResponse = await context.env.ASSETS.fetch(
+      new Request(new URL(forbiddenPagePath, url.origin)),
+    );
+    return new Response(notFoundResponse.body, {
+      status: 404,
+      headers: notFoundResponse.headers,
+    });
   }
 
   return context.next();
