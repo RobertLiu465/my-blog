@@ -4,9 +4,10 @@ import PostNav from '../components/PostNav.astro';
 import SmartImage from '../components/SmartImage.astro';
 import TableOfContents from '../components/islands/TableOfContents.astro';
 import Giscus from '../components/islands/Giscus.astro';
+import Twikoo from '../components/islands/Twikoo.astro';
 import MathStyles from '../components/MathStyles.astro';
 import { Icon } from 'astro-icon/components';
-import { GISCUS, SITE, type Locale } from '../config';
+import { GISCUS, TWIKOO, SITE, type Locale } from '../config';
 import { useTranslations, stripLocale, formatDate, isoDate, localizedPath } from '../i18n/utils';
 import { readingTime } from '../utils/reading-time';
 import {
@@ -48,7 +49,8 @@ for (const [lang, p] of Object.entries(translations)) {
 // Locales that actually have a published version of this post.
 const availableLocales = (Object.keys(translationLinks) as Locale[]).sort();
 
-const commentsEnabled = post.data.comments !== false && GISCUS.enabled;
+const commentsProvider = TWIKOO.enabled ? 'twikoo' : GISCUS.enabled ? 'giscus' : null;
+const commentsEnabled = post.data.comments !== false && commentsProvider !== null;
 const pathWithoutLocale = stripLocale(Astro.url.pathname);
 
 const heroSrc = heroImageSrc(post);
@@ -205,12 +207,14 @@ const crumbs = [
     <PostNav prev={prev} next={next} locale={locale} />
 
     {
-      commentsEnabled ? (
-        <Giscus locale={locale} />
-      ) : (
-        post.data.comments === false && (
-          <p class="text-base-content/70 mt-10 text-sm">{t('post.commentsDisabled')}</p>
-        )
+      commentsEnabled && commentsProvider === 'twikoo' && (
+        <Twikoo locale={locale} path={Astro.url.pathname} />
+      )
+    }
+    {commentsEnabled && commentsProvider === 'giscus' && <Giscus locale={locale} />}
+    {
+      !commentsEnabled && post.data.comments === false && (
+        <p class="text-base-content/70 mt-10 text-sm">{t('post.commentsDisabled')}</p>
       )
     }
   </article>

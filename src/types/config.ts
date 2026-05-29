@@ -53,6 +53,15 @@ export interface SocialLink {
   icon: string;
 }
 
+export interface TwikooConfig {
+  /** 总开关。 */
+  enabled: boolean;
+  /** 腾讯云 envId，或 Vercel 部署地址（https://xxx.vercel.app）。 */
+  envId: string;
+  /** 环境地域（腾讯云：ap-shanghai / ap-guangzhou；Vercel 留空）。 */
+  region: string;
+}
+
 export interface GiscusConfig {
   /** Master switch. */
   enabled: boolean;

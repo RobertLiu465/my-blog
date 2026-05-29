@@ -51,6 +51,17 @@ export const messages = {
     'post.commentsSetupStep4':
       'Rebuild the site — this notice will be replaced by the live comments thread.',
     'post.commentsSetupDocs': 'Open giscus.app',
+    'post.commentsTwikooSetupTitle': 'Comments need configuration',
+    'post.commentsTwikooSetupBody':
+      'Twikoo is enabled but not yet configured. Add your environment ID below to start collecting comments.',
+    'post.commentsTwikooSetupStep1':
+      'Deploy a Twikoo service on Tencent Cloud or Vercel (see `twikoo.js.org`).',
+    'post.commentsTwikooSetupStep2': 'Copy the `envId` (Tencent) or service URL (Vercel).',
+    'post.commentsTwikooSetupStep3':
+      'Set `PUBLIC_TWIKOO_ENABLED=true` and `PUBLIC_TWIKOO_ENV_ID` in your `.env` file.',
+    'post.commentsTwikooSetupStep4':
+      'Rebuild the site — this notice will be replaced by the live comments thread.',
+    'post.commentsTwikooSetupDocs': 'Open twikoo.js.org',
     'post.share': 'Share',
     'post.copyLink': 'Copy link',
     'post.copied': 'Copied!',
@@ -147,6 +158,14 @@ export const messages = {
       '设置环境变量 `PUBLIC_GISCUS_ENABLED`、`PUBLIC_GISCUS_REPO`、`PUBLIC_GISCUS_REPO_ID`、`PUBLIC_GISCUS_CATEGORY` 和 `PUBLIC_GISCUS_CATEGORY_ID` 在你的 `.env` 文件中。',
     'post.commentsSetupStep4': '重新构建网站 — 此通知将被实时评论线程替换。',
     'post.commentsSetupDocs': '打开 giscus.app',
+    'post.commentsTwikooSetupTitle': '评论需要配置',
+    'post.commentsTwikooSetupBody': 'Twikoo 评论已启用但未配置。请在下方填写环境 ID 以启用评论。',
+    'post.commentsTwikooSetupStep1': '在腾讯云或 Vercel 部署 Twikoo 服务（参见 `twikoo.js.org`）。',
+    'post.commentsTwikooSetupStep2': '复制 `envId`（腾讯云）或服务地址（Vercel）。',
+    'post.commentsTwikooSetupStep3':
+      '在 `.env` 中设置 `PUBLIC_TWIKOO_ENABLED=true` 和 `PUBLIC_TWIKOO_ENV_ID`。',
+    'post.commentsTwikooSetupStep4': '重新构建网站 — 此提示将替换为实时评论区。',
+    'post.commentsTwikooSetupDocs': '打开 twikoo.js.org',
     'post.share': '分享',
     'post.copyLink': '复制链接',
     'post.copied': '已复制！',

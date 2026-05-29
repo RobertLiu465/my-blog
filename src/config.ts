@@ -1,6 +1,6 @@
 import avatarImg from './assets/images/site/avatar.svg';
 import ogDefaultImg from './assets/images/site/og-default.svg';
-import type { SiteConfig, NavItem, SocialLink, GiscusConfig } from './types/config';
+import type { SiteConfig, NavItem, SocialLink, GiscusConfig, TwikooConfig } from './types/config';
 import { resolveSiteUrl } from './site-url';
 
 /**
@@ -141,6 +141,18 @@ export const SOCIALS: readonly SocialLink[] = [
   },
   { label: 'RSS', href: '/rss.xml', icon: 'lucide:rss' },
 ].filter(Boolean) as SocialLink[];
+
+/**
+ * Twikoo 评论。`enabled: false` 可全局关闭；单篇文章可用 frontmatter `comments: false` 关闭。
+ *
+ * 部署说明见 https://twikoo.js.org
+ * 推荐通过 PUBLIC_TWIKOO_* 环境变量在构建时注入。
+ */
+export const TWIKOO: TwikooConfig = {
+  enabled: (import.meta.env.PUBLIC_TWIKOO_ENABLED ?? 'false') === 'true',
+  envId: import.meta.env.PUBLIC_TWIKOO_ENV_ID ?? '',
+  region: import.meta.env.PUBLIC_TWIKOO_REGION ?? '',
+};
 
 /**
  * Giscus comments. Set `enabled: false` to globally disable. Individual
