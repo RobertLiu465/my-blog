@@ -1,10 +1,9 @@
 // middleware.js
 
-// 允许的域名列表
 const ALLOWED_HOSTS = ['cn.gd-forge.com'];
 
-export function middleware(context) {
-  const { request, next, rewrite, clientIp } = context;
+export async function middleware(context) {
+  const { request, next, clientIp } = context;
   const url = new URL(request.url);
 
   // 只拦截页面导航请求
@@ -13,19 +12,22 @@ export function middleware(context) {
     return next();
   }
 
-  // 非 allowed 域名 或 无客户端 IP（未经过 EdgeOne 代理）→ 返回 404 页面
+  // 非 allowed 域名 或 未经过 EdgeOne 代理
   const isForbiddenHost = !ALLOWED_HOSTS.includes(url.hostname);
   const isNotFromEdgeOne = !clientIp;
 
   if (isForbiddenHost || isNotFromEdgeOne) {
-    // 重写到 404 页面，保持当前 URL 不变，内容替换为 404 页面
-    return rewrite('/404.html');
+    // 获取 404 页面内容，返回 404 状态码
+    const notFoundResponse = await fetch(new URL('/404.html', request.url));
+    return new Response(notFoundResponse.body, {
+      status: 404,
+      headers: { 'Content-Type': 'text/html' },
+    });
   }
 
   return next();
 }
 
-// 匹配所有路由
 export const config = {
   matcher: ['/:path*'],
 };
