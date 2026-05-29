@@ -36,7 +36,7 @@ export default [
   },
   {
     // Cloudflare Pages Functions（Workers 运行时全局变量）
-    files: ['functions/**/*.js'],
+    files: ['functions/**/*.js', 'middleware.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
