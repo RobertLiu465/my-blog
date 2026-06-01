@@ -18,3 +18,9 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  twikoo?: {
+    init: (options: Record<string, string>) => void;
+  };
+}

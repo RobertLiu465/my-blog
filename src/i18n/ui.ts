@@ -115,6 +115,9 @@ export const messages = {
     'footer.theme': 'Theme',
     'footer.privacy': 'Privacy Policy',
     'footer.copyright': 'All rights reserved.',
+
+    'panel.recentlyUpdated': 'Recently Updated',
+    'panel.trendingTags': 'Trending Tags',
   },
 
   'zh-cn': {
@@ -219,6 +222,9 @@ export const messages = {
     'footer.theme': '主题',
     'footer.privacy': '隐私政策',
     'footer.copyright': 'All rights reserved.',
+
+    'panel.recentlyUpdated': '最近更新',
+    'panel.trendingTags': '热门标签',
   },
 } as const satisfies Record<Locale, Record<string, string>>;
 

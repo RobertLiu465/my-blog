@@ -35,6 +35,23 @@ export default [
     },
   },
   {
+    files: ['**/*.d.ts'],
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
+  {
+    files: ['**/*.mjs', 'astro.config.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        URL: 'readonly',
+        console: 'readonly',
+      },
+    },
+  },
+  {
     // Cloudflare Pages Functions（Workers 运行时全局变量）
     files: ['functions/**/*.js', 'middleware.js'],
     languageOptions: {

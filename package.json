@@ -21,13 +21,15 @@
     "typecheck": "astro check",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json}\"",
-    "format:check": "prettier --check \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json}\"",
+    "format": "prettier --write \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json,mjs}\"",
+    "format:check": "prettier --check \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json,mjs}\"",
+    "verify": "bun run format:check && bun run lint && bun run typecheck",
+    "precommit": "bun run format && bun run lint:fix",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{astro,ts,tsx,js,jsx}": [
-      "eslint --max-warnings=0",
+    "*.{astro,ts,tsx,js,jsx,mjs}": [
+      "eslint --fix --max-warnings=0",
       "prettier --write"
     ],
     "*.{md,mdx,css,json}": [

@@ -59,9 +59,13 @@ bun install
 bun run dev          # 本地开发（搜索不可用）
 bun run build        # 构建 + Pagefind 索引
 bun run preview      # 预览 dist（可测搜索）
+bun run precommit    # 提交前：格式化 + ESLint 自动修复
+bun run verify       # 与 CI 一致：format:check + lint + typecheck
 bun run typecheck
 bun run lint
 ```
+
+提交前若 Husky 拦截，先 `bun run precommit`，再 `git add -u` 后重新 commit。
 
 ## 部署
 

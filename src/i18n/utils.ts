@@ -186,3 +186,19 @@ export function htmlLang(locale: Locale): string {
       return 'en-US';
   }
 }
+
+/** Open Graph `og:locale` 值。 */
+export function ogLocale(locale: Locale): string {
+  return locale === 'zh-cn' ? 'zh_CN' : 'en_US';
+}
+
+/** 非默认语言 RSS 标题后缀（默认语言无后缀）。 */
+export function rssLocaleSuffix(locale: Locale): string {
+  if (locale === DEFAULT_LOCALE) return '';
+  return locale === 'en' ? ' (EN)' : ' (ZH)';
+}
+
+/** Giscus `data-locale` 值。 */
+export function giscusLocale(locale: Locale): string {
+  return locale === 'zh-cn' ? 'zh-CN' : 'en';
+}

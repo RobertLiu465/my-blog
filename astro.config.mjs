@@ -61,8 +61,14 @@ function collectUnlistedUrls() {
             if (!entry.data.unlisted) continue;
             // Derive locale and slug from the entry id (e.g. "en/my-post.md").
             const segs = entry.id.split(/[\\/]/);
-            const locale = segs[0] && /** @type {readonly string[]} */ (SITE.locales).includes(segs[0]) ? segs[0] : SITE.defaultLocale;
-            const slug = segs.slice(1).join('/').replace(/\.(md|mdx)$/i, '');
+            const locale =
+              segs[0] && /** @type {readonly string[]} */ (SITE.locales).includes(segs[0])
+                ? segs[0]
+                : SITE.defaultLocale;
+            const slug = segs
+              .slice(1)
+              .join('/')
+              .replace(/\.(md|mdx)$/i, '');
             if (locale === SITE.defaultLocale) {
               unlistedPathSegments.add(`posts/${slug}`);
             } else {
