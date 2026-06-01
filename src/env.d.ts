@@ -21,6 +21,7 @@ interface ImportMeta {
 
 interface Window {
   twikoo?: {
-    init: (options: Record<string, string>) => void;
+    init: (options: Record<string, string>) => void | Promise<void>;
+    getVisitorsCount?: (options: Record<string, string>) => Promise<{ time?: number } | null>;
   };
 }

@@ -1,0 +1,75 @@
+---
+import { TWIKOO } from '../../config';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<div
+  data-twikoo-visitors-loader
+  data-env-id={TWIKOO.envId}
+  data-path={path}
+  data-region={TWIKOO.region}
+  hidden
+  aria-hidden="true"
+>
+</div>
+
+<script>
+  const TWIKOO_CDN = 'https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.min.js';
+
+  function updateVisitorsCount(envId: string, path: string, region?: string) {
+    const el = document.getElementById('twikoo_visitors');
+    const twikoo = window.twikoo;
+    if (!el || !twikoo?.getVisitorsCount) return;
+
+    const options: Record<string, string> = { envId, path };
+    if (region) options.region = region;
+
+    void twikoo.getVisitorsCount(options).then((res) => {
+      if (res && (res.time === 0 || res.time)) el.textContent = String(res.time);
+    });
+  }
+
+  function loadTwikooVisitors() {
+    const loader = document.querySelector<HTMLElement>('[data-twikoo-visitors-loader]');
+    if (!loader || loader.dataset.loaded === 'true') return;
+
+    const envId = loader.dataset.envId;
+    const path = loader.dataset.path;
+    if (!envId || !path) return;
+
+    const region = loader.dataset.region;
+    const run = () => {
+      updateVisitorsCount(envId, path, region);
+      loader.dataset.loaded = 'true';
+    };
+
+    if (window.twikoo?.getVisitorsCount) {
+      run();
+      return;
+    }
+
+    const existing = document.querySelector<HTMLScriptElement>(`script[src="${TWIKOO_CDN}"]`);
+    if (existing) {
+      if (window.twikoo) {
+        run();
+      } else {
+        existing.addEventListener('load', run, { once: true });
+      }
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = TWIKOO_CDN;
+    script.async = true;
+    script.addEventListener('load', run, { once: true });
+    document.head.appendChild(script);
+  }
+
+  loadTwikooVisitors();
+  document.addEventListener('astro:page-load', loadTwikooVisitors);
+</script>

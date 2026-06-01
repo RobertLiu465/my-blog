@@ -9,6 +9,7 @@
  */
 import { TWIKOO, type Locale } from '../../config';
 import { useTranslations } from '../../i18n/utils';
+import { isTwikooEnvConfigured } from '../../utils/twikoo';
 import { Icon } from 'astro-icon/components';
 
 interface Props {
@@ -25,18 +26,7 @@ const t = useTranslations(locale);
 const twikooGloballyEnabled = TWIKOO.enabled;
 const twikooPostEnabled = enabled;
 
-function looksUnconfigured(value: string): boolean {
-  if (!value) return true;
-  const lower = value.toLowerCase();
-  return (
-    lower.includes('xxx') ||
-    lower.includes('your-') ||
-    value.includes('您的环境id') ||
-    value.includes('环境id')
-  );
-}
-
-const twikooConfigured = !looksUnconfigured(TWIKOO.envId);
+const twikooConfigured = isTwikooEnvConfigured(TWIKOO.envId);
 
 type CommentState = 'live' | 'setup' | 'disabled';
 const state: CommentState =
@@ -123,6 +113,19 @@ const twikooLang = locale === 'zh-cn' ? 'zh-CN' : 'en';
 <script>
   const TWIKOO_CDN = 'https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.min.js';
 
+  function updateVisitorsCount(envId: string, path: string, region?: string) {
+    const el = document.getElementById('twikoo_visitors');
+    const twikoo = window.twikoo;
+    if (!el || !twikoo?.getVisitorsCount) return;
+
+    const options: Record<string, string> = { envId, path };
+    if (region) options.region = region;
+
+    void twikoo.getVisitorsCount(options).then((res) => {
+      if (res && (res.time === 0 || res.time)) el.textContent = String(res.time);
+    });
+  }
+
   function mountTwikoo() {
     const mount = document.querySelector<HTMLElement>('[data-twikoo-mount]');
     if (!mount || mount.dataset.mounted === 'true') return;
@@ -144,8 +147,15 @@ const twikooLang = locale === 'zh-cn' ? 'zh-CN' : 'en';
       const region = mount.dataset.region;
       if (region) options.region = region;
 
-      twikoo.init(options);
+      const initResult = twikoo.init(options);
       mount.dataset.mounted = 'true';
+      const refreshVisitors = () => updateVisitorsCount(envId, options.path, region);
+
+      if (initResult && typeof (initResult as Promise<void>).then === 'function') {
+        void (initResult as Promise<void>).then(refreshVisitors);
+      } else {
+        refreshVisitors();
+      }
     };
 
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${TWIKOO_CDN}"]`);
