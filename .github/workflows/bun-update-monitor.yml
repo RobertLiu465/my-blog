@@ -62,5 +62,5 @@ jobs:
         shell: bash
         run: |
           echo "Pinned Bun ${PINNED_BUN_VERSION} is behind latest Bun ${{ steps.compare.outputs.latest }}."
-          echo "Update .github/workflows/deploy.yml and .github/workflows/pr-checks.yml, then regenerate bun.lock and open a PR."
+          echo "Update .github/workflows/pr-checks.yml, then regenerate bun.lock and open a PR."
           exit 1

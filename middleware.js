@@ -1,4 +1,4 @@
-// middleware.js
+// EdgeOne Edge 中间件。域名白名单按 EdgeOne 环境修改；构建期变量在 EdgeOne 控制台配置。
 
 const ALLOWED_HOSTS = ['cn.gd-forge.com'];
 

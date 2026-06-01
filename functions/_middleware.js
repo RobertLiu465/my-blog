@@ -1,4 +1,4 @@
-// functions/_middleware.js
+// Cloudflare Pages Functions。运行时变量在 CF 控制台配置（ALLOWED_HOSTS、SITE_URL 等）。
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
