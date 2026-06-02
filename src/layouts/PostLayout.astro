@@ -50,6 +50,7 @@ for (const [lang, p] of Object.entries(translations)) {
 const availableLocales = (Object.keys(translationLinks) as Locale[]).sort();
 
 const commentsProvider = TWIKOO.enabled ? 'twikoo' : GISCUS.enabled ? 'giscus' : null;
+const showTwikooVisitors = TWIKOO.enabled;
 const commentsEnabled = post.data.comments !== false && commentsProvider !== null;
 const pathWithoutLocale = stripLocale(Astro.url.pathname);
 
@@ -155,6 +156,15 @@ const crumbs = [
           {minutes}
           {t('post.readingTime')}
         </span>
+        {
+          showTwikooVisitors && (
+            <span class="inline-flex items-center gap-1">
+              <Icon name="lucide:eye" width={14} height={14} />
+              <span id="twikoo_visitors">0</span>
+              {t('post.views')}
+            </span>
+          )
+        }
       </div>
     </header>
 
