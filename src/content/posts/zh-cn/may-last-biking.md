@@ -1,6 +1,6 @@
 ---
 title: '五月最后一次骑行'
-description: '一次五月的骑行札记。关于汗水、西瓜汁，以及那条被阳光拉长的归途。当肉体抵达极限，灵魂才刚刚上路。'
+description: '五月最后一天的骑行日记，夏日高温下的首次挑战。'
 heroImage: ../../../assets/images/posts/may-last-biking/may-last-biking-0.png
 pubDate: 2026-06-01
 updatedDate: 2026-06-02
