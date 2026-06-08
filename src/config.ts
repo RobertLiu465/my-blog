@@ -154,6 +154,21 @@ export const TWIKOO: TwikooConfig = {
   region: import.meta.env.PUBLIC_TWIKOO_REGION ?? '',
 };
 
+function isTwikooEnvIdConfigured(envId: string): boolean {
+  if (!envId) return false;
+  const lower = envId.toLowerCase();
+  return (
+    !lower.includes('xxx') &&
+    !lower.includes('your-') &&
+    !envId.includes('您的环境id') &&
+    !envId.includes('环境id')
+  );
+}
+
+export function isTwikooReady(): boolean {
+  return TWIKOO.enabled && isTwikooEnvIdConfigured(TWIKOO.envId);
+}
+
 /**
  * Giscus comments. Set `enabled: false` to globally disable. Individual
  * posts may opt out via frontmatter `comments: false`.

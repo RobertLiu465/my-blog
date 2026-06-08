@@ -7,7 +7,7 @@ import Giscus from '../components/islands/Giscus.astro';
 import Twikoo from '../components/islands/Twikoo.astro';
 import MathStyles from '../components/MathStyles.astro';
 import { Icon } from 'astro-icon/components';
-import { GISCUS, TWIKOO, SITE, type Locale } from '../config';
+import { GISCUS, isTwikooReady, SITE, type Locale } from '../config';
 import { useTranslations, stripLocale, formatDate, isoDate, localizedPath } from '../i18n/utils';
 import { readingTime } from '../utils/reading-time';
 import {
@@ -49,8 +49,8 @@ for (const [lang, p] of Object.entries(translations)) {
 // Locales that actually have a published version of this post.
 const availableLocales = (Object.keys(translationLinks) as Locale[]).sort();
 
-const commentsProvider = TWIKOO.enabled ? 'twikoo' : GISCUS.enabled ? 'giscus' : null;
-const showTwikooVisitors = TWIKOO.enabled;
+const commentsProvider = isTwikooReady() ? 'twikoo' : GISCUS.enabled ? 'giscus' : null;
+const showTwikooVisitors = isTwikooReady();
 const commentsEnabled = post.data.comments !== false && commentsProvider !== null;
 const pathWithoutLocale = stripLocale(Astro.url.pathname);
 
@@ -158,11 +158,18 @@ const crumbs = [
         </span>
         {
           showTwikooVisitors && (
-            <span class="inline-flex items-center gap-1">
-              <Icon name="lucide:eye" width={14} height={14} />
-              <span id="twikoo_visitors">0</span>
-              {t('post.views')}
-            </span>
+            <>
+              <link
+                rel="preload"
+                href="https://cdn.jsdelivr.net/npm/twikoo@1.7.11/dist/twikoo.min.js"
+                as="script"
+              />
+              <span id="twikoo-visitors-wrap" class="inline-flex items-center gap-1" hidden>
+                <Icon name="lucide:eye" width={14} height={14} />
+                <span id="twikoo_visitors" />
+                {t('post.views')}
+              </span>
+            </>
           )
         }
       </div>
