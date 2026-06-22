@@ -3,9 +3,9 @@ title: '骑bike friday首次戒潭戒'
 description: '戒台寺新pr，记录在案的最长骑行距离。'
 pubDate: 2026-06-16
 updatedDate: 2026-06-22
+heroImage: ../../../assets/images/posts/biking-6-14/biking-6-14-0.png
 tags: [cycling]
 categories: [life]
-unlisted: true
 ---
 
 昨夜的雨带走了一天的闷热，今天又是个雨过天晴，空气清爽的好日子，最适合骑行了。
